@@ -4,6 +4,7 @@
 
 @main-bg: #211f1f; 
 @nav_background: rgba(90,90,90,0.5);
+@nav_active_background: rgba(100,100,100,1.0);
 @nav-link_color: #ffffff;
 
 /******************************
@@ -26,19 +27,36 @@ body {
 header {
 	div{
 		.func_cell;
-		overflow: visible;
+		overflow:	visible;
 
 		h1 {
 			.transform_rotate(-15deg);
-			position:	relative;
-			vertical-align: middle;
-			text-align: center;
+			position:		relative;
+			vertical-align:	middle;
+			text-align:		center;
+		}
+
+		h2 {
+			display: 		table-cell;
+			position:		relative;
+			vertical-align:	middle;
+			text-align: 		center;
 		}
 	}
 
-	div.sitename {
+	div.tophead {
 		.box_shadow (1px, 1px, 5px, 2px, rgba(0, 0, 0, 0.7));
-		background: rgba(255,255,255,0.2);
+		background:	rgba(255,255,255,0.2);
+	}
+
+	div.subhead {
+		display:		table;
+		background:	rgba(255,255,255,0.2);
+	}
+
+	div.blank.cover {
+		display:		table;
+		background:	rgba(255,255,255,0.2) !important;
 	}
 }
 
@@ -77,6 +95,10 @@ nav {
 			}
 
 		}
+
+		li.active {
+			background: @nav_active_background !important;
+		}
 	}
 
 }
@@ -110,7 +132,7 @@ section {
 	background: none !important;
 }
 
-li.cell:not(.blank), div.cell:not(.blank){
+li.cell:not(.blank):not(.subhead), div.cell:not(.blank):not(.subhead){
 	transition: all  0.3s ease;
 		-webkit-transition: all 0.3s ease;
 		-moz-transition: all 0.3s ease;
@@ -123,7 +145,8 @@ li.cell:not(.blank), div.cell:not(.blank){
 	}
 }
 
-li.cell:not(.blank):focus, li.cell:not(.blank):hover, div.cell:not(.blank):focus, div.cell:not(.blank):hover{
+li.cell:not(.blank):not(.subhead):focus, li.cell:not(.blank):not(.subhead):hover,
+ div.cell:not(.blank):not(.subhead):focus, div.cell:not(.blank):not(.subhead):hover{
 	background-color: white;
 	a {
 		color: black !important;

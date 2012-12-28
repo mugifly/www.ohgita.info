@@ -136,13 +136,33 @@ $(function(){
 			var $header = $parent.children("header");
 			var $header_h1 = $header.children("h1");
 			if($header_h1.length == 1){
-				var $header_h1_container = $('<div class="sitename cell"></div>');
+				/* Head in to container */
+				var $header_h1_container = $('<div class="tophead cell"></div>');
 				$header_h1_container.append($header_h1);
 				$header.append($header_h1_container);
-			}else{
+			}else{ /* If already Head in container... */
 				$header_h1 = $header.children("div").children("h1");
 			}
-			Site.insertMarginBlockToLine($header, $header.children().length, blocksNumX, "left");
+
+			var $header_h2 = $header.children("h2");
+			var is_header_cover = false;
+			if($header_h2.length == 1){ /* If Sub-head is exist... */
+				var $header_h2_container = $('<div class="subhead cell"></div>');
+				$header_h2_container.append($header_h2);
+				$header.append($header_h2_container);
+				is_header_cover = true;
+			}else{
+				$header_h2 = $header.children("div").children("h2");
+				if($header_h2.length == 1){/* If exist & already Head in container... */
+					is_header_cover = true;
+				}
+			}
+
+			if(is_header_cover){
+				Site.insertMarginBlockToLine($header, $header.children().length, blocksNumX, "left", "cover");
+			}else{
+				Site.insertMarginBlockToLine($header, $header.children().length, blocksNumX, "left");
+			}
 
 			/* Process for ALL blocks  -------------------- */
 
@@ -178,7 +198,7 @@ $(function(){
 		/**
 			Insert margin-block(Row) to line 
 		**/
-		this.insertMarginBlockToLine = function($line_obj, inner_blocks_num, block_num_x, opt_force_align){
+		this.insertMarginBlockToLine = function($line_obj, inner_blocks_num, block_num_x, opt_force_align, opt_classname){
 
 			/* Insert block*/
 			var left_margin_num = Math.floor((block_num_x - inner_blocks_num) / 2);
@@ -193,11 +213,19 @@ $(function(){
 			}
 
 			for(var i=0;i<left_margin_num;i++){
-				$line_obj.prepend('<div class="cell blank auto">&nbsp;</div>');
+				var $item = $('<div class="cell blank auto">&nbsp;</div>');
+				if(opt_classname != null){
+					$item.addClass(opt_classname);
+				}
+				$line_obj.prepend($item);
 			}
 
 			for(var i=0;i<right_margin_num;i++){
-				$line_obj.append('<div class="cell blank auto">&nbsp;</div>');
+				var $item = $('<div class="cell blank auto">&nbsp;</div>');
+				if(opt_classname != null){
+					$item.addClass(opt_classname);
+				}
+				$line_obj.append($item);
 			}
 		};
 
