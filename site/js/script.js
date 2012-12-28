@@ -10,6 +10,7 @@ $(function(){
 		blocksNumX_MIN = 6;
 		blocksNumY_MIN = 6;
 
+		isSingleBlock = false;
 		blockHeight = 0;
 		blockWidth = 0;
 		blocksNumY = 0;
@@ -23,6 +24,7 @@ $(function(){
 		**/
 		this.init = function () {
 			console.log("init()");
+			isSingleBlock = false;
 			blockHeight = 0;
 			blockWidth = 0;
 			blocksNumY = 0;
@@ -83,17 +85,23 @@ $(function(){
 				}
 			);
 
-			contentBlocksNumX += 2;
-			blocksNumX += contentBlocksNumX;
+			if(blocksNumY <= 2 && contentBlocksNumX == 1){	/* Single block mode */
+				isSingleBlock = true;
+				blocksNumX += contentBlocksNumX;
 
-			/* Minimum size check */
-			if(blocksNumX < blocksNumX_MIN){
-				contentBlocksNumX += blocksNumX_MIN - blocksNumX;
-				blocksNumX = blocksNumX_MIN;
-			}
+			} else {	/* Normal mode */
+				contentBlocksNumX += 2;
+				blocksNumX += contentBlocksNumX;
 
-			if(blocksNumY < blocksNumY_MIN){
-				blocksNumY = blocksNumY_MIN;
+				/* Minimum size check */
+				if(blocksNumX < blocksNumX_MIN){
+					contentBlocksNumX += blocksNumX_MIN - blocksNumX;
+					blocksNumX = blocksNumX_MIN;
+				}
+
+				if(blocksNumY < blocksNumY_MIN){
+					blocksNumY = blocksNumY_MIN;
+				}
 			}
 
 			/* Process for Nav blocks -------------------- */
@@ -109,6 +117,7 @@ $(function(){
 				function (i){
 					var $blocks = $(this);
 					$blocks.addClass("cell");
+					$blocks.addClass("flicker");
 				}
 			);
 			blocksNumX += navBlocksNumX;
@@ -125,25 +134,30 @@ $(function(){
 
 			/* Process for Content blocks -------------------- */
 
-			/* Insert a margin cells (Lines)  */
-			while(headerBlocksNumY + $parent.children("section").children("article").length < blocksNumY){
-				var $article = $("<article />");
-				$article.addClass('auto');
-				$parent.children("section").append($article);
-			}
+			if(isSingleBlock == false){/* Normal mode */
 
-			/* Insert a margin cells (Rows)  */
-			$content_articles = $parent.children("section").children("article");//TODO! Refactor
-			$content_articles.each(
-				function (i){
-					var $article = $(this); 
-					var $blocks = $article.children("div");
-
-					if($blocks.length < contentBlocksNumX){
-						Site.insertMarginBlockToLine($article, $blocks.length, contentBlocksNumX);
-					}
+				/* Insert a margin cells (Lines)  */
+				while(headerBlocksNumY + $parent.children("section").children("article").length < blocksNumY){
+					var $article = $("<article />");
+					$article.addClass('auto');
+					$parent.children("section").append($article);
 				}
-			);
+
+				/* Insert a margin cells (Rows) , and Set class to content blocks */
+				$content_articles = $parent.children("section").children("article");//TODO! Refactor
+				$content_articles.each(
+					function (i){
+						var $article = $(this); 
+						var $blocks = $article.children("div");
+						$blocks.addClass("flicker");
+
+						if($blocks.length < contentBlocksNumX){
+							Site.insertMarginBlockToLine($article, $blocks.length, contentBlocksNumX);
+						}
+					}
+				);
+
+			}
 
 			/* Process for Header blocks -------------------- */
 
@@ -151,9 +165,10 @@ $(function(){
 			var $header_h1 = $header.children("h1");
 			if($header_h1.length == 1){
 				/* Head in to container */
-				var $header_h1_container = $('<div class="tophead cell"></div>');
+				var $header_h1_container = $('<div class="tophead cell flicker"></div>');
 				$header_h1_container.append($header_h1);
 				$header.append($header_h1_container);
+				$header_h1 = $header.children("div").children("h1");
 			}else{ /* If already Head in container... */
 				$header_h1 = $header.children("div").children("h1");
 			}
@@ -164,6 +179,7 @@ $(function(){
 				var $header_h2_container = $('<div class="subhead cell"></div>');
 				$header_h2_container.append($header_h2);
 				$header.append($header_h2_container);
+				$header_h2 = $header.children("div").children("h2");
 				is_header_cover = true;
 			}else{
 				$header_h2 = $header.children("div").children("h2");
@@ -185,11 +201,39 @@ $(function(){
 			blockHeight = Math.floor($(window).innerHeight() / blocksNumY);
 			$(".cell").css('height',blockHeight);
 
-			blockWidth = Math.floor($("header").innerWidth() / blocksNumX);
+			if(isSingleBlock){/* Single block mode */
 
-			$(".cell").css('width',blockWidth);
+				/* Reset height to content block */
+				$content_articles.children('div').css('height', 'auto');
 
-			$nav.css('width', blockWidth);
+				/* Set width to ALL block */
+
+				blockWidth = Math.floor($("header").innerWidth() / 10);
+				$(".cell").css('width',$("header").innerWidth() - blockWidth);
+
+				/* Set width to Header block */
+				$header_h1.parent().css('width', blockWidth);
+
+				/* Set width to Nav blocks */
+				$nav_items.each(
+					function (i){
+						$(this).css('width', blockWidth);
+					}
+				);
+				/* Set to Nav bar */
+				$nav.css('width', blockWidth);
+
+			}else{/* Normal Mode */
+
+				/* Set width to ALL blocks */
+				blockWidth = Math.floor($("header").innerWidth() / blocksNumX);
+				$(".cell").css('width',blockWidth);
+
+				/* Set width to Nav bar */
+				$nav.css('width', blockWidth);
+
+			}
+
 
 			/* Adjust header -------------------- */
 
