@@ -5,10 +5,42 @@
 @main-bg: #211f1f; 
 
 body {
-	background-color: #211f1f;
+	background-color: @main-bg;
 	color: #ffffff;
 }
 
-h1 {
-	font-size: 20pt;
+header {
+	
+	font-size: 10pt;
+	.func_cell;
+
+	h1 {
+		.transform_rotate(-15deg);
+		vertical-align: middle;
+		text-align: center;
+	}
+
+}
+
+.cell {
+	.func_cell;
+}
+
+/*
+ Mixins
+ */
+
+.func_cell (@bg-color : @main-bg){
+	width: 20%;
+	height: 20%;
+	background: @bg-color;
+	border: 1px solid #ffffff;
+}
+
+.transform_rotate (@rotate_deg) {
+	transform: rotate(@rotate_deg);
+		-webkit-transform: rotate(@rotate_deg);
+		-o-transform: rotate(@rotate_deg);
+		-moz-transform: rotate(@rotate_deg);
+		-ms-transform: rotate(@rotate_deg);
 }
