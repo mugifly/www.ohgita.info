@@ -34,6 +34,8 @@ $(function(){
 			$parent.children("section").children('article').children('.auto').each(function(i){
 				$(this).remove();
 			});
+
+			/* Cleanup rows in Header */
 			$header.children().children('article').children('.auto').each(function(i){
 				$(this).remove();
 			});
@@ -48,7 +50,7 @@ $(function(){
 			Draw
 		**/
 		this.draw = function () {
-			console.log("init()");
+			console.log("draw()");
 
 			var $parent =  $("body");
 
@@ -109,17 +111,17 @@ $(function(){
 
 			var $header = $parent.children("header");
 			var $header_h1 = $header.children("h1");
-			console.log($header_h1);
 			if($header_h1.length == 1){
 				var $header_h1_container = $('<div class="sitename cell"></div>');
 				$header_h1_container.append($header_h1);
 				$header.append($header_h1_container);
+			}else{
+				$header_h1 = $header.children("div").children("h1");
 			}
 			Site.insertMarginBlockToLine($header, $header.children().length, blocksNumX, "left");
 
 			/* Set size to blocks ---------- */
-
-			blockHeight = Math.floor($(document).innerHeight() / blocksNumY);
+			blockHeight = Math.floor($(window).innerHeight() / blocksNumY);
 			$(".cell").css('height',blockHeight);
 
 			blockWidth = Math.floor($("header").innerWidth() / blocksNumX);
@@ -129,7 +131,7 @@ $(function(){
 
 			/* Set font size */
 			$header_h1.css('top', '0px');
-			for(var size=0;size<100;size+=3){
+			for(var size=1;size<100;size+=3){
 				$header_h1.css('fontSize', size+'pt');
 				if(blockHeight / 2 <= $header_h1.height() ){
 					break;
@@ -140,6 +142,7 @@ $(function(){
 
 			/* Complete*/
 			$parent.css('opacity', '1.0');
+			console.log("Complete draw()");
 		};
 
 		/**
