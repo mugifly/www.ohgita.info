@@ -5,25 +5,82 @@
 @main-bg: #211f1f; 
 
 body {
-	background-color: @main-bg;
+	background-image: url('../images/bg_checkered.png');
 	color: #ffffff;
+	overflow: hidden;
+
+	font: 14px/1.5 "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic Pro", Meiryo, sans-serif;
+	font-weight:300;
 }
 
 header {
-	
-	font-size: 10pt;
-	.func_cell;
+	div{
+		.func_cell;
+		overflow: visible;
+		h1 {
+			position:	relative;
+			.transform_rotate(-15deg);
+			vertical-align: middle;
+			text-align: center;
+		}
+	}
 
-	h1 {
-		.transform_rotate(-15deg);
-		vertical-align: middle;
-		text-align: center;
+	div.sitename {
+		background: rgba(255,255,255,0.4);
+	}
+}
+
+header:after{
+	display:		block;
+	content:		"";
+	clear:		both;
+}
+
+nav {
+	display:none;
+	ul {
+		li {
+			display: block;
+		}
 	}
 
 }
 
+section {
+	article {
+
+		div {
+			.func_cell;
+		}
+
+	}
+
+	article:after{
+		display:		block;
+		content:		"";
+		clear:		both;
+	}
+}
+
 .cell {
 	.func_cell;
+}
+
+.cell.blank {
+	background-color: none;
+	.user_select;
+}
+
+div.cell:not(.blank){
+	transition: all  0.3s ease;
+		-webkit-transition: all 0.3s ease;
+		-moz-transition: all 0.3s ease;
+		-o-transition: all 0.3s ease;
+}
+
+div.cell:not(.blank):focus, div.cell:not(.blank):hover{
+	color: black;
+	background-color: white;
 }
 
 /*
@@ -33,10 +90,18 @@ header {
 .func_cell (@bg-color : @main-bg){
 	display: block;
 	position: relative;
-	width: 20%;
-	height: 20%;
-	background: @bg-color;
-	border: 1px solid #ffffff;
+	float: left;
+	margin: -1px;
+	border: 1px solid #303030;
+}
+
+.user_select (@mode: none){
+	user-select: none;
+		moz-user-select: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-webkit-user-drag: none;
+		-khtml-user-drag: none;
 }
 
 .transform_rotate (@rotate_deg) {

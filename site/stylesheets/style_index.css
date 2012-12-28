@@ -5,3 +5,10 @@
 .mouth {
 	background-color: #8b5757;
 }
+
+.cell {
+	margin-top: auto;
+	margin-bottom: auto;
+	vertical-align: middle;
+	text-align: center;
+}
