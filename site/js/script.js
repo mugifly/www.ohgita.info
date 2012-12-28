@@ -79,8 +79,19 @@ $(function(){
 					}
 				}
 			);
+
 			contentBlocksNumX += 2;
 			blocksNumX += contentBlocksNumX;
+
+			/* Minimum size check */
+			if(blocksNumX < 5){
+				contentBlocksNumX += 5 - blocksNumX;
+				blocksNumX = 5;
+			}
+
+			if(blocksNumY < 5){
+				blocksNumY = 5;
+			}
 
 			/* Process for Nav blocks -------------------- */
 
