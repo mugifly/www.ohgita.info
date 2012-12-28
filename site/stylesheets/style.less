@@ -3,6 +3,7 @@
 **/
 
 @main-bg: #211f1f; 
+@nav-link_color: #000000;
 
 /******************************
 	Body
@@ -13,7 +14,7 @@ body {
 	background-image: url('../images/bg_checkered.png');
 	color: #ffffff;
 
-	font: 14px/1.5 "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic Pro", Meiryo, sans-serif;
+	font: 15px/1.5 "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic Pro", Meiryo, sans-serif;
 	font-weight:300;
 }
 
@@ -35,7 +36,8 @@ header {
 	}
 
 	div.sitename {
-		background: rgba(255,255,255,0.4);
+		.box_shadow (1px, 1px, 5px, 2px, rgba(0, 0, 0, 0.7));
+		background: rgba(255,255,255,0.2);
 	}
 }
 
@@ -51,6 +53,7 @@ nav {
 	float: left;
 
 	ul {
+		.box_shadow (1px, 1px, 3px, 1px, rgba(0, 0, 0, 0.7));
 		display: table;
 		margin:				0;
 		padding:				0;
@@ -60,6 +63,18 @@ nav {
 			.func_cell;
 			display: table;
 			vertical-align: middle;
+			background: rgba(255,255,255,0.4);
+
+			a {
+				vertical-align:	bottom !important;
+				padding-right:	10%;
+				padding-bottom:	10%;
+				text-align: 		right;
+				font-weight: 	bold !important;
+				color:			@nav-link_color !important;
+				text-shadow: 	0px 0px 3px rgba(0, 0, 0, 0.3);
+			}
+
 		}
 	}
 
@@ -91,7 +106,7 @@ section {
 
 .cell.blank {
 	.user_select(none);
-	background-color: none;
+	background: none !important;
 }
 
 li.cell:not(.blank), div.cell:not(.blank){
@@ -129,9 +144,25 @@ li.cell:not(.blank):focus, li.cell:not(.blank):hover, div.cell:not(.blank):focus
 	border: 1px solid #303030;
 }
 
+.box_shadow (@x:0px, @y:0px, @b:0px, @l:0px, @color: rgba(0,0,0,0.5)){
+	box-shadow: @x @y @b @l @color;
+		-moz-box-shadow: @x @y @b @l @color;
+		-webkit-box-shadow: @x @y @b @l @color;
+		-o-box-shadow: @x @y @b @l @color;
+		-ms-box-shadow: @x @y @b @l @color;
+}
+
+.box_shadow_inset (@x:0px, @y:0px, @b:0px, @l:0px, @color: rgba(0,0,0,0.5)){
+	box-shadow: @x @y @b @l @color inset;
+		-moz-box-shadow: @x @y @b @l @color inset;
+		-webkit-box-shadow: @x @y @b @l @color inset;
+		-o-box-shadow: @x @y @b @l @color inset;
+		-ms-box-shadow: @x @y @b @l @color inset;
+}
+
 .user_select (@mode: none){
 	user-select: none;
-		moz-user-select: none;
+		-moz-user-select: none;
 		-webkit-user-select: none;
 		-khtml-user-select: none;
 		-webkit-user-drag: none;

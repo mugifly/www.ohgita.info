@@ -13,6 +13,7 @@ $(function(){
 		blocksNumX = 0;
 		contentBlocksNumX = 0;
 		navBlocksNumX = 1;
+		headerBlocksNumY = 1;
 
 		/**
 			Initialize
@@ -24,7 +25,6 @@ $(function(){
 			blocksNumY = 0;
 			blocksNumX = 0;
 			contentBlocksNumX = 0;
-			navBlocksNumX = navBlocksNumX;
 
 			var $parent =  $("body");
 			var $header = $parent.children("header");
@@ -60,34 +60,16 @@ $(function(){
 
 			$parent.css('opacity', '0.5');
 
-			/* Process for Nav blocks -------------------- */
-			var $nav =  $parent.children("nav");
-			var $nav_items =$nav.children("ul").children("li");//TODO! Refactor
+			blocksNumY = headerBlocksNumY;
 
-			/* Count a number of blocks (Lines), and Set class to blocks */
-			if(blocksNumY <= $nav_items.length){
-				blocksNumY = $nav_items.length + 1;
-			}
-			$nav_items.each(
-				function (i){
-					var $blocks = $(this);
-					$blocks.addClass("cell");
-				}
-			);
-
-			blocksNumX += navBlocksNumX;
-
-			/* Process for Content blocks -------------------- */
-
-			var $content_articles = $parent.children("section").children("article");//TODO! Refactor
+			/* Pre-Process for Content blocks  -------------------- */
 			
-			/* Count a number of blocks (Lines) */
-			if(blocksNumY <= $content_articles.length){
-				blocksNumY += 1;
-			}
-			blocksNumY += 1;
+			var $content_articles = $parent.children("section").children("article");//TODO! Refactor
 
-			/* Count a number of blocks (Rows), and Set class to blocks */
+			/* Count a number of Content blocks (Lines) */
+			blocksNumY += $content_articles.length;
+
+			/* Count a number of Content blocks (Rows), and Set class to Content blocks */
 			$content_articles.each(
 				function (i){
 					var $blocks = $(this).children("div");
@@ -100,8 +82,37 @@ $(function(){
 			contentBlocksNumX += 2;
 			blocksNumX += contentBlocksNumX;
 
+			/* Process for Nav blocks -------------------- */
+
+			var $nav =  $parent.children("nav");
+			var $nav_items =$nav.children("ul").children("li");//TODO! Refactor
+
+			/* Count a number of Nav blocks (Lines), and Set class to Nav blocks */
+			if(blocksNumY <= ($nav_items.length + headerBlocksNumY)){
+				blocksNumY = ($nav_items.length + headerBlocksNumY);
+			}
+			$nav_items.each(
+				function (i){
+					var $blocks = $(this);
+					$blocks.addClass("cell");
+				}
+			);
+			blocksNumX += navBlocksNumX;
+
 			/* Insert a margin cells (Lines)  */
-			while($parent.children("section").children("article").length < blocksNumY){
+			while(headerBlocksNumY + $nav_items.length < blocksNumY){
+				var $article = $("<li />");
+				$article.addClass('cell');
+				$article.addClass('blank');
+				$article.addClass('auto');
+				$nav.children("ul").append($article);
+				$nav_items =$nav.children("ul").children("li");//TODO! Refactor
+			}
+
+			/* Process for Content blocks -------------------- */
+
+			/* Insert a margin cells (Lines)  */
+			while(headerBlocksNumY + $parent.children("section").children("article").length < blocksNumY){
 				var $article = $("<article />");
 				$article.addClass('auto');
 				$parent.children("section").append($article);
@@ -142,8 +153,6 @@ $(function(){
 
 			blockWidth = Math.floor($("header").innerWidth() / blocksNumX);
 
-			console.log($("header").innerWidth() + " / " + blocksNumX);
-			console.log(blockWidth);
 			$(".cell").css('width',blockWidth);
 
 			$nav.css('width', blockWidth);
