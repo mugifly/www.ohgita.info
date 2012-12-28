@@ -11,6 +11,8 @@ $(function(){
 		blockWidth = 0;
 		blocksNumY = 0;
 		blocksNumX = 0;
+		contentBlocksNumX = 0;
+		navBlocksNumX = 1;
 
 		/**
 			Initialize
@@ -21,6 +23,8 @@ $(function(){
 			blockWidth = 0;
 			blocksNumY = 0;
 			blocksNumX = 0;
+			contentBlocksNumX = 0;
+			navBlocksNumX = navBlocksNumX;
 
 			var $parent =  $("body");
 			var $header = $parent.children("header");
@@ -56,16 +60,24 @@ $(function(){
 
 			$parent.css('opacity', '0.5');
 
-			/* Process for Nav blocks ---------- */
-			
-			var $nav_items = $parent.children("nav").children("ul").children("li");//TODO! Refactor
+			/* Process for Nav blocks -------------------- */
+			var $nav =  $parent.children("nav");
+			var $nav_items =$nav.children("ul").children("li");//TODO! Refactor
 
-			/* Count a number of blocks (Lines) */
+			/* Count a number of blocks (Lines), and Set class to blocks */
 			if(blocksNumY <= $nav_items.length){
 				blocksNumY = $nav_items.length + 1;
 			}
+			$nav_items.each(
+				function (i){
+					var $blocks = $(this);
+					$blocks.addClass("cell");
+				}
+			);
 
-			/* Process for Content blocks ---------- */
+			blocksNumX += navBlocksNumX;
+
+			/* Process for Content blocks -------------------- */
 
 			var $content_articles = $parent.children("section").children("article");//TODO! Refactor
 			
@@ -80,12 +92,13 @@ $(function(){
 				function (i){
 					var $blocks = $(this).children("div");
 					$blocks.addClass("cell");
-					if(blocksNumX < $blocks.length){
-						blocksNumX = $blocks.length;
+					if(contentBlocksNumX < $blocks.length){
+						contentBlocksNumX = $blocks.length;
 					}
 				}
 			);
-			blocksNumX += 4;
+			contentBlocksNumX += 2;
+			blocksNumX += contentBlocksNumX;
 
 			/* Insert a margin cells (Lines)  */
 			while($parent.children("section").children("article").length < blocksNumY){
@@ -101,13 +114,13 @@ $(function(){
 					var $article = $(this); 
 					var $blocks = $article.children("div");
 
-					if($blocks.length < blocksNumX){
-						Site.insertMarginBlockToLine($article, $blocks.length, blocksNumX);
+					if($blocks.length < contentBlocksNumX){
+						Site.insertMarginBlockToLine($article, $blocks.length, contentBlocksNumX);
 					}
 				}
 			);
 
-			/* Process for Header blocks ---------- */
+			/* Process for Header blocks -------------------- */
 
 			var $header = $parent.children("header");
 			var $header_h1 = $header.children("h1");
@@ -120,14 +133,22 @@ $(function(){
 			}
 			Site.insertMarginBlockToLine($header, $header.children().length, blocksNumX, "left");
 
-			/* Set size to blocks ---------- */
+			/* Process for ALL blocks  -------------------- */
+
+			/*  Calculate block size, and set to blocks */
+
 			blockHeight = Math.floor($(window).innerHeight() / blocksNumY);
 			$(".cell").css('height',blockHeight);
 
 			blockWidth = Math.floor($("header").innerWidth() / blocksNumX);
+
+			console.log($("header").innerWidth() + " / " + blocksNumX);
+			console.log(blockWidth);
 			$(".cell").css('width',blockWidth);
 
-			/* Adjust header ---------- */
+			$nav.css('width', blockWidth);
+
+			/* Adjust header -------------------- */
 
 			/* Set font size */
 			$header_h1.css('top', '0px');

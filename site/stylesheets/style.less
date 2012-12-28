@@ -4,22 +4,31 @@
 
 @main-bg: #211f1f; 
 
+/******************************
+	Body
+**/
+
 body {
+	overflow: hidden;
 	background-image: url('../images/bg_checkered.png');
 	color: #ffffff;
-	overflow: hidden;
 
 	font: 14px/1.5 "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic Pro", Meiryo, sans-serif;
 	font-weight:300;
 }
 
+/******************************
+	Header
+**/
+
 header {
 	div{
 		.func_cell;
 		overflow: visible;
+
 		h1 {
-			position:	relative;
 			.transform_rotate(-15deg);
+			position:	relative;
 			vertical-align: middle;
 			text-align: center;
 		}
@@ -31,74 +40,89 @@ header {
 }
 
 header:after{
-	display:		block;
-	content:		"";
-	clear:		both;
+	.after_clear;
 }
 
+/******************************
+	Nav (Navigation)
+**/
+
 nav {
-	display:none;
+	float: left;
+
 	ul {
+		display: table;
+		margin:				0;
+		padding:				0;
+		list-style-type:		none;
+
 		li {
-			display: block;
+			.func_cell;
+			display: table;
+			vertical-align: middle;
 		}
 	}
 
 }
 
+/******************************
+	Section
+**/
+
 section {
+
 	article {
 
 		div {
 			.func_cell;
-
-			vertical-align: middle;
 			display: table;
-
-			a {
-				vertical-align: middle;
-				display: table-cell;
-				color:	white;
-			}
-
+			vertical-align: middle;
 		}
-
-	}
-
-	article:after{
-		display:		block;
-		content:		"";
-		clear:		both;
 	}
 }
+
+/******************************
+	General classs
+**/
 
 .cell {
 	.func_cell;
 }
 
 .cell.blank {
+	.user_select(none);
 	background-color: none;
-	.user_select;
 }
 
-div.cell:not(.blank){
+li.cell:not(.blank), div.cell:not(.blank){
 	transition: all  0.3s ease;
 		-webkit-transition: all 0.3s ease;
 		-moz-transition: all 0.3s ease;
 		-o-transition: all 0.3s ease;
+
+	a {
+		vertical-align: middle;
+		display: table-cell;
+		color:	white;
+	}
 }
 
-div.cell:not(.blank):focus, div.cell:not(.blank):hover{
+li.cell:not(.blank):focus, li.cell:not(.blank):hover, div.cell:not(.blank):focus, div.cell:not(.blank):hover{
 	color: black;
 	background-color: white;
 }
 
-/*
- Mixins
- */
+/******************************
+ 	Mixins
+ **/
+
+.after_clear (){
+	display:		block;
+	content:		"";
+	clear:		both;
+}
 
 .func_cell (@bg-color : @main-bg){
-	/*display: block;*/
 	position: relative;
 	float: left;
 	margin: -1px;
