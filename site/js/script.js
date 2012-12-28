@@ -7,6 +7,9 @@
 $(function(){
 	var Site = new function(){
 
+		blocksNumX_MIN = 6;
+		blocksNumY_MIN = 6;
+
 		blockHeight = 0;
 		blockWidth = 0;
 		blocksNumY = 0;
@@ -84,13 +87,13 @@ $(function(){
 			blocksNumX += contentBlocksNumX;
 
 			/* Minimum size check */
-			if(blocksNumX < 5){
-				contentBlocksNumX += 5 - blocksNumX;
-				blocksNumX = 5;
+			if(blocksNumX < blocksNumX_MIN){
+				contentBlocksNumX += blocksNumX_MIN - blocksNumX;
+				blocksNumX = blocksNumX_MIN;
 			}
 
-			if(blocksNumY < 5){
-				blocksNumY = 5;
+			if(blocksNumY < blocksNumY_MIN){
+				blocksNumY = blocksNumY_MIN;
 			}
 
 			/* Process for Nav blocks -------------------- */
