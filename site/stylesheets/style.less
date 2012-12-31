@@ -120,9 +120,44 @@ section {
 	}
 }
 
+section:after {
+	display: block;
+	content: "";
+	clear: both;
+}
+
+/******************************
+	Footer
+**/
+
+footer {
+	display:		block;
+	position:	fixed;
+	height:		1.5em;
+	line-height: 1.2em;
+	width:		100%;
+	bottom:		0px;
+	text-align: right;
+	font-size:	0.6em;
+
+	a {
+		margin-right:	5%;
+		color:	white;
+	}
+}
+
+
 /******************************
 	General classs
 **/
+
+.pull_left {
+	text-align: left;
+}
+
+.pull_right {
+	text-align: right;
+}
 
 .cell {
 	.func_cell;

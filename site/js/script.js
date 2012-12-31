@@ -159,6 +159,10 @@ $(function(){
 
 			}
 
+			/* Process for Footer -------------------- */
+			var $footer = $parent.children("footer");
+			footer_height = $footer.outerHeight();
+
 			/* Process for Header blocks -------------------- */
 
 			var $header = $parent.children("header");
@@ -196,9 +200,14 @@ $(function(){
 
 			/* Process for ALL blocks  -------------------- */
 
+			/* Calculate block border & padding size */
+
+			var blocks_padding =  ($(".cell:first").outerHeight() - $(".cell:first").innerHeight()) * blocksNumY;
+			//blockWidth = $(".cell:first").outerWidth() - $(".cell:first").innerWidth(); //FIX ME
+
 			/*  Calculate block size, and set to blocks */
 
-			blockHeight = Math.floor($(window).innerHeight() / blocksNumY);
+			blockHeight = Math.floor(($(window).innerHeight() - blocks_padding - footer_height) / blocksNumY);
 			$(".cell").css('height',blockHeight);
 
 			if(isSingleBlock){/* Single block mode */
@@ -208,7 +217,7 @@ $(function(){
 
 				/* Set width to ALL block */
 
-				blockWidth = Math.floor($("header").innerWidth() / 10);
+				blockWidth += Math.floor($("header").innerWidth() / 10);
 				$(".cell").css('width',$("header").innerWidth() - blockWidth);
 
 				/* Set width to Header block */
@@ -226,7 +235,7 @@ $(function(){
 			}else{/* Normal Mode */
 
 				/* Set width to ALL blocks */
-				blockWidth = Math.floor($("header").innerWidth() / blocksNumX);
+				blockWidth += Math.floor($("header").innerWidth() / blocksNumX);
 				$(".cell").css('width',blockWidth);
 
 				/* Set width to Nav bar */
