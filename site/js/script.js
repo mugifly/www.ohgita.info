@@ -202,12 +202,12 @@ $(function(){
 
 			/* Calculate block border & padding size */
 
-			var blocks_padding =  ($(".cell:first").outerHeight() - $(".cell:first").innerHeight()) * blocksNumY;
-			//blockWidth = $(".cell:first").outerWidth() - $(".cell:first").innerWidth(); //FIX ME
+			var blocks_padding_y =  ($(".cell:first").outerHeight() - $(".cell:first").innerHeight()) * blocksNumY;
+			var blocks_padding_x =  ($(".cell:first").outerWidth() - $(".cell:first").innerWidth()) * blocksNumX;
 
 			/*  Calculate block size, and set to blocks */
 
-			blockHeight = Math.floor(($(window).innerHeight() - blocks_padding - footer_height) / blocksNumY);
+			blockHeight = Math.floor(($(window).innerHeight() - blocks_padding_y - footer_height) / blocksNumY);
 			$(".cell").css('height',blockHeight);
 
 			if(isSingleBlock){/* Single block mode */
@@ -215,7 +215,7 @@ $(function(){
 				/* Reset height to content block */
 				$content_articles.children('div').css('height', 'auto');
 
-				/* Set width to ALL block */
+				/* Calculate width & Set to ALL block */
 
 				blockWidth += Math.floor($("header").innerWidth() / 10);
 				$(".cell").css('width',$("header").innerWidth() - blockWidth);
@@ -234,12 +234,25 @@ $(function(){
 
 			}else{/* Normal Mode */
 
-				/* Set width to ALL blocks */
-				blockWidth += Math.floor($("header").innerWidth() / blocksNumX);
-				$(".cell").css('width',blockWidth);
+				/* Calculate width & Set to ALL blocks */
+				blockWidth = Math.floor(($("header").innerWidth() - blocks_padding_x) / blocksNumX);
+				$(".cell").css('width',blockWidth + 'px');
+
+				/* Calculate width with include surplus */
+				blockwidth_surplus = blockWidth + $("header").innerWidth() - (blockWidth * blocksNumX);
+
+				/* Set width to Header Sitename */
+				$header_h1.parent().css('width', blockwidth_surplus + 'px');
 
 				/* Set width to Nav bar */
-				$nav.css('width', blockWidth);
+				$nav.css('width', blockwidth_surplus + 'px');
+
+				/* Set width to Nav blocks */
+				$nav_items.each(
+					function (i){
+						$(this).css('width', blockwidth_surplus + 'px');
+					}
+				);
 
 			}
 
