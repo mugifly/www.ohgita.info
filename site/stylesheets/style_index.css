@@ -15,6 +15,12 @@
 
 .segm {
 	opacity:	 0.1;
-	background-color: rgba(238,187,203,0.7);
+	background-color: rgba(238,187,203,0.7) !important;
+	border-color:	  #000000;
+}
+
+.segm_new {
+	opacity:	 0.1;
+	background-color: rgba(255,255,255,1.0) !important;
 	border-color:	  #000000;
 }
