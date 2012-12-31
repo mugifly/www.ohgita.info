@@ -2,10 +2,11 @@
 	Script for www.ohgita.info
 	(C) Masanori Ohgita.
 **/
-
 /* On load */
 $(function(){
 	var Site = new function(){
+
+		IS_ENABLE_AJAX = false;
 
 		blocksNumX_MIN = 6;
 		blocksNumY_MIN = 6;
@@ -256,7 +257,6 @@ $(function(){
 
 			}
 
-
 			/* Adjust header -------------------- */
 
 			/* Set font size */
@@ -270,9 +270,81 @@ $(function(){
 			/* Set top */
 			$header_h1.css('top', Math.floor((blockHeight - $header_h1.height()) / 4) - 5 + 'px');
 
+			/* Link -------------------- */
+
+			/* Set event handler to link */
+			if(IS_ENABLE_AJAX){
+				$parent.find('a').click(function(){
+					var href = ($(this).attr('href'));
+					if(href != null & href.match(/\http:\/\/.*/i) != false){ /* Internal link */
+						Site.loadPage(href);
+						return false;
+					}
+					return true;
+				});
+			}
+
 			/* Complete*/
 			$parent.css('opacity', '1.0');
 			console.log("Complete draw()");
+		};
+
+		/**
+			Load page
+		**/
+		this.loadPage = function(a_url){
+			$.ajax({
+				type: 'GET',
+				url: a_url,
+				timeout: 5000,
+				success: function(data){
+					/* Remove header */
+					$('body').children('header').remove();
+					/* Remove nav */
+					$('body').children('nav').remove();
+					/* Remove section(content) */
+					$('body').children('section').remove();
+					/* Remove footer */
+					$('body').children('footer').remove();
+
+					/* Load a receive data to dummy */
+					var $dummy = $('<div />');
+					$('body').append($dummy);
+					$dummy.html(data);
+
+					/* Append HTML head */
+					var head = $dummy.find("head");
+					console.log(head);
+					$('head').append(head);
+
+					/* Append Header */
+					var header = $dummy.find("header");
+					$('body').append(header);
+
+					/* Append Nav */
+					var nav = $dummy.find("nav");
+					$('body').append(nav);
+
+					/* Append section(content) */
+					var section = $dummy.find("section");
+
+					section.each(function(){
+						$('body').append($(this));
+					});
+
+					/* Append Footer */
+					var footer = $dummy.find("footer");
+					$('body').append(footer);
+
+					$dummy.remove();
+
+					Site.init();
+				 },
+				 error: function(XMLHttpRequest, textStatus, errorThrown){
+				 	location.href = a_url;
+				 }
+			});
+			return false;
 		};
 
 		/**
@@ -310,11 +382,11 @@ $(function(){
 		};
 
 	};
+
 	Site.init();
 
 	/* Set event handler */
 	$(window).resize(function(){
 		Site.init();
 	});
-
 });
