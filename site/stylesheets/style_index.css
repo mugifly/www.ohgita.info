@@ -2,6 +2,16 @@
 	background-color: #d0c394;
 }
 
+.pict0 {
+	background-image: url(../images/DSC_0258.JPG) !important;
+	background-size:	 cover;
+}
+
+.pict1 {
+	background-image: url(../images/IMG_0206.JPG) !important;
+	background-size:	 cover;
+}
+
 .mouth {
 	background-color: #8b5757;
 }
