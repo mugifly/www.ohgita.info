@@ -8,6 +8,8 @@
 @nav_active_background: rgba(100,100,100,1.0);
 @nav-link_color: #ffffff;
 
+@import url(http://fonts.googleapis.com/css?family=Oxygen:300,700);
+
 /******************************
 	Body
 **/
@@ -121,6 +123,14 @@ section {
 			.func_cell;
 			display: table;
 			vertical-align: middle;
+		}
+
+		div:not(.article){
+			a {
+				font-size: 1.2em;
+				font-weight: 700;
+				font-family: 'Oxygen', sans-serif;
+			}
 		}
 	}
 }
