@@ -11,6 +11,10 @@ $(function(){
 		blocksNumX_MIN = 6;
 		blocksNumY_MIN = 6;
 
+		if(($(window).width() / $(window).height()) < 1.65){
+			blocksNumX_MIN = 5;
+		}
+
 		isSingleBlock = false;
 		blockHeight = 0;
 		blockWidth = 0;
