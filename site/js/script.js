@@ -393,4 +393,7 @@ $(function(){
 	$(window).resize(function(){
 		Site.init();
 	});
+
+	/* Flickable */
+	var flipsnap = Flipsnap('body');
 });

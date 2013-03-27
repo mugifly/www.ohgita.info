@@ -19,7 +19,7 @@ if(typeof isLoad_www_ohgita_info == 'undefined'){
 
 	document.write('<script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>');
 	document.write('<script type="text/javascript" src="/js/less-1.3.1.min.js"></script>');
-	document.write('<script type="text/javascript" src="/js/jquery.flickable-1.0b3-jq1.6.js"></script>');
+	document.write('<script type="text/javascript" src="/js/flipsnap.min.js"></script>');
 	
-	document.write('<script type="text/javascript" src="/js/script.js"></script>');
+	document.write('<script type="text/javascript" src="/js/script.js?1"></script>');
 }
