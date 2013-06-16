@@ -396,4 +396,10 @@ $(function(){
 
 	/* Flickable */
 	var flipsnap = Flipsnap('body');
+	flipsnap.element.addEventListener('fstouchmove', function(ev) {
+		//console.log(ev.direction);
+		//if (ev.direction === -1) {
+			ev.preventDefault(); // cancel touchmove event and fire touchend event.
+		//}
+	});
 });
